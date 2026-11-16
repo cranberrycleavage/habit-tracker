@@ -80,6 +80,33 @@ tinderQueue = tinderQueue.filter(
     updateState();
 }
 
+function undoTodayCompletion(id) {
+    const habit =
+        tasks.find(
+            h => h.id === id
+        );
+
+    if (!habit) {
+        return;
+    }
+
+    const today =
+        startOfDay(
+            new Date()
+        ).getTime();
+
+    habit.completions =
+        habit.completions.filter(
+            completion =>
+                startOfDay(
+                    completion
+                ).getTime() !== today
+        );
+
+    updateState();
+}
+
+
 function deleteHabit(id) {
     if (!confirm("Delete this habit?")) {
         return;
@@ -417,62 +444,129 @@ function renderStandardView() {
                 );
             }
 
-            div.innerHTML = `
-                <h3>${habit.name}</h3>
+if (currentView === "compact") {
 
-                <div class="info">
-                    🏆 Tier ${habit.tier}
-                </div>
+    div.innerHTML = `
+        <h3>${habit.name}</h3>
 
-                <div class="info">
-                    ⏰ ${habit.scheduled}
-                </div>
+<button class="complete-btn">
+                ${
+                    doneToday
+                        ? "Completed Today"
+                        : "Mark Complete"
+                }
+        </button>
+    `;
 
-                <div class="info">
-                    ${
-                        streak > 0
-                            ? `🔥 ${streak} day streak`
-                            : `💤 No active streak`
-                    }
-                </div>
+} else {
 
-                <div class="info">
-                    ✅ ${habit.completions.length} completions
-                </div>
+    div.innerHTML = `
+        <h3>${habit.name}</h3>
 
-                <button
-                    class="complete-btn"
-                    ${
-                        doneToday
-                            ? "disabled"
-                            : ""
-                    }>
-                    ${
-                        doneToday
-                            ? "Completed Today"
-                            : "Mark Complete"
-                    }
-                </button>
-            `;
+        <div class="info">
+            🏆 Tier ${habit.tier}
+        </div>
 
-            const button =
-                div.querySelector(
-                    ".complete-btn"
-                );
+        <div class="info">
+            ⏰ ${habit.scheduled}
+        </div>
 
-            button.addEventListener(
-                "click",
-                () =>
-                    completeHabit(
-                        habit.id
-                    )
-            );
+        <div class="info">
+            ${
+                streak > 0
+                    ? `🔥 ${streak} day streak`
+                    : `💤 No active streak`
+            }
+        </div>
 
-            container.appendChild(
-                div
-            );
-        }
+        <div class="info">
+            ✅ ${habit.completions.length} completions
+        </div>
+
+        <div class="habit-buttons">
+
+<button
+    class="complete-btn">
+                ${
+                    doneToday
+                        ? "Completed Today"
+                        : "Mark Complete"
+                }
+            </button>
+
+            <button class="edit-btn">
+                Edit
+            </button>
+
+            <button class="delete-btn">
+                Delete
+            </button>
+
+        </div>
+    `;
+}
+const completeBtn =
+    div.querySelector(
+        ".complete-btn"
     );
+
+completeBtn.addEventListener(
+    "click",
+    () => {
+
+        if (
+            completedToday(
+                habit
+            )
+        ) {
+
+            undoTodayCompletion(
+                habit.id
+            );
+
+        } else {
+
+            completeHabit(
+                habit.id
+            );
+
+        }
+    }
+);
+
+const editBtn =
+    div.querySelector(
+        ".edit-btn"
+    );
+
+if (editBtn) {
+    editBtn.addEventListener(
+        "click",
+        () =>
+            editHabit(
+                habit.id
+            )
+    );
+}
+
+const deleteBtn =
+    div.querySelector(
+        ".delete-btn"
+    );
+
+if (deleteBtn) {
+    deleteBtn.addEventListener(
+        "click",
+        () =>
+            deleteHabit(
+                habit.id
+            )
+    );
+}
+container.appendChild(div);
+}
+);
+
 }
 
 function getTinderOrder() {
@@ -724,6 +818,21 @@ document
                 "standard";
 
             tinderQueue = [];
+
+            renderHabits();
+        }
+    );
+
+document
+    .getElementById(
+        "compactViewBtn"
+    )
+    ?.addEventListener(
+        "click",
+        () => {
+
+            currentView =
+                "compact";
 
             renderHabits();
         }
