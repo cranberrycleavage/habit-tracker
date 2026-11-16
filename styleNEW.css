@@ -1,0 +1,233 @@
+:root {
+    --bg: #0f172a;
+    --bg-secondary: #1e293b;
+    --card: rgba(30, 41, 59, 0.75);
+    --text: #f8fafc;
+    --text-secondary: #94a3b8;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --success: #22c55e;
+    --success-hover: #16a34a;
+    --warning: #f59e0b;
+    --warning-hover: #d97706;
+    --border: rgba(255,255,255,.08);
+    --shadow: 0 10px 30px rgba(0,0,0,.25);
+    --radius: 18px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            #312e81,
+            #0f172a 40%
+        );
+
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 900px;
+    margin: auto;
+    padding: 24px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.toolbar,
+.view-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.card,
+.habit {
+    background: var(--card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+}
+
+.card h2 {
+    margin-bottom: 16px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow:
+        0 0 0 3px
+        rgba(99,102,241,.25);
+}
+
+button,
+.import-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 12px;
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .15s;
+}
+
+button:hover,
+.import-button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    opacity: .6;
+    transform: none;
+    cursor: not-allowed;
+}
+
+.import-button input {
+    display: none;
+}
+
+.complete-btn {
+    background: var(--success);
+    margin-top: 12px;
+}
+
+.complete-btn:hover {
+    background: var(--success-hover);
+}
+
+.skip-btn {
+    background: var(--warning);
+}
+
+.skip-btn:hover {
+    background: var(--warning-hover);
+}
+
+.habit {
+    position: relative;
+}
+
+.habit h3 {
+    margin-bottom: 10px;
+}
+
+.info {
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.completed {
+    border-color: rgba(34,197,94,.5);
+}
+
+.completed::before {
+    content: "✓";
+    position: absolute;
+    right: 18px;
+    top: 18px;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    background: var(--success);
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+}
+
+.tinder-card {
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.tinder-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 24px;
+}
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 16px;
+    }
+
+    .toolbar,
+    .view-toggle {
+        flex-direction: column;
+    }
+
+    .toolbar button,
+    .toolbar label,
+    .view-toggle button {
+        width: 100%;
+    }
+}
+
+.habit-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.edit-btn {
+    background: #3b82f6;
+}
+
+.edit-btn:hover {
+    background: #2563eb;
+}
+
+.delete-btn {
+    background: #ef4444;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}

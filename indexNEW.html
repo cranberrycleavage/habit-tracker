@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="styleNEW.css">
+</head>
+<body>
+
+    <h1>Habit Tracker</h1>
+
+    <div class="toolbar">
+        <button id="exportBtn">Export JSON</button>
+
+        <label class="import-button">
+            Import JSON
+            <input
+                type="file"
+                id="importFile"
+                accept=".json">
+        </label>
+
+        <button id="resetBtn">
+            Reset All Completions
+        </button>
+    </div>
+
+    <div class="view-toggle">
+        <button id="standardViewBtn">
+            Standard View
+        </button>
+
+        <button id="tinderViewBtn">
+            Focus Mode
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>Add Habit</h2>
+
+        <input
+            id="habitName"
+            placeholder="Habit Name">
+
+        <input
+            id="habitTier"
+            type="number"
+            min="1"
+            placeholder="Tier">
+
+        <input
+            id="habitTime"
+            type="time">
+
+        <button id="addBtn">
+            Add Habit
+        </button>
+    </div>
+
+    <div id="habitList"></div>
+
+    <script src="appNEW.js"></script>
+
+</body>
+</html>
