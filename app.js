@@ -216,6 +216,67 @@ let currentView = "standard";
 let tinderQueue = [];
 
 console.log("APP LOADED");
+function updateTierCounters() {
+    const stats = {
+        1: { total: 0, completed: 0 },
+        2: { total: 0, completed: 0 },
+        3: { total: 0, completed: 0 },
+        4: { total: 0, completed: 0 },
+        5: { total: 0, completed: 0 }
+    };
+
+    tasks.forEach(habit => {
+        const tier = Number(habit.tier);
+
+        if (!stats[tier]) return;
+
+        stats[tier].total++;
+
+        if (completedToday(habit)) {
+            stats[tier].completed++;
+        }
+    });
+
+
+
+
+for (let tier = 1; tier <= 5; tier++) {
+
+    const counter =
+        document.getElementById(
+            `tier${tier}Counter`
+        );
+
+    const bar =
+        document.getElementById(
+            `tier${tier}Bar`
+        );
+
+    const completed =
+        stats[tier].completed;
+
+    const total =
+        stats[tier].total;
+
+    counter.textContent =
+        `Tier ${tier} - ${completed}/${total}`;
+
+    const percent =
+        total === 0
+            ? 0
+            : (completed / total) * 100;
+
+    if (bar) {
+        bar.style.width =
+            `${percent}%`;
+    }
+}
+
+
+
+
+}
+
 
 renderHabits();
 
@@ -599,6 +660,7 @@ function importJson(file) {
 }
 
 function renderHabits() {
+updateTierCounters();
     if (
         currentView ===
         "tinder"
