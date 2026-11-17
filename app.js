@@ -1,4 +1,215 @@
 const STORAGE_KEY = "habitTrackerData_v1";
+const THEME_KEY = "habitTrackerTheme";
+
+const themes = {
+    default: {
+        "--bg": "#102a13",
+        "--bg-secondary": "#1f4d29",
+        "--card": "rgba(31,77,41,.75)",
+        "--text": "#f0fdf4",
+        "--text-secondary": "#bbf7d0",
+        "--primary": "#22c55e",
+        "--primary-hover": "#16a34a",
+        "--success": "#84cc16",
+        "--success-hover": "#65a30d",
+        "--warning": "#eab308",
+        "--warning-hover": "#ca8a04",
+        "--body-gradient":
+            "radial-gradient(circle at top left,#14532d,#102a13 40%)",
+"--edit": "#38bdf8",
+"--edit-hover": "#0ea5e9",
+"--delete": "#dc2626",
+"--delete-hover": "#b91c1c",
+"--completed-card": "rgba(20,45,24,.85)"
+    },
+
+    ocean: {
+        "--bg": "#082f49",
+        "--bg-secondary": "#0f4c75",
+        "--card": "rgba(15,76,117,.72)",
+        "--text": "#ecfeff",
+        "--text-secondary": "#a5f3fc",
+        "--primary": "#06b6d4",
+        "--primary-hover": "#0891b2",
+        "--success": "#14b8a6",
+        "--success-hover": "#0f766e",
+        "--warning": "#38bdf8",
+        "--warning-hover": "#0284c7",
+        "--body-gradient":
+            "radial-gradient(circle at top left,#0ea5e9,#082f49 45%)",
+"--edit": "#67e8f9",
+"--edit-hover": "#22d3ee",
+"--delete": "#ef4444",
+"--delete-hover": "#dc2626",
+"--completed-card": "rgba(8,35,55,.88)"
+    },
+
+    sunset: {
+        "--bg": "#431407",
+        "--bg-secondary": "#7c2d12",
+        "--card": "rgba(124,45,18,.75)",
+        "--text": "#fff7ed",
+        "--text-secondary": "#fdba74",
+        "--primary": "#f97316",
+        "--primary-hover": "#ea580c",
+        "--success": "#fb7185",
+        "--success-hover": "#e11d48",
+        "--warning": "#fbbf24",
+        "--warning-hover": "#d97706",
+        "--body-gradient":
+            "radial-gradient(circle at top left,#f97316,#431407 40%)",
+"--edit": "#fb7185",
+"--edit-hover": "#e11d48",
+"--delete": "#dc2626",
+"--delete-hover": "#991b1b",
+"--completed-card": "rgba(80,25,12,.88)"
+    },
+
+    lavender: {
+        "--bg": "#2e1065",
+        "--bg-secondary": "#5b21b6",
+        "--card": "rgba(91,33,182,.70)",
+        "--text": "#faf5ff",
+        "--text-secondary": "#d8b4fe",
+        "--primary": "#a855f7",
+        "--primary-hover": "#9333ea",
+        "--success": "#c084fc",
+        "--success-hover": "#a855f7",
+        "--warning": "#f472b6",
+        "--warning-hover": "#db2777",
+        "--body-gradient":
+            "radial-gradient(circle at top left,#8b5cf6,#2e1065 40%)",
+"--edit": "#60a5fa",
+"--edit-hover": "#3b82f6",
+"--delete": "#ef4444",
+"--delete-hover": "#dc2626",
+"--completed-card": "rgba(55,20,120,.85)"
+    },
+matcha: {
+    "--bg": "#e8f5e9",
+    "--bg-secondary": "#c8e6c9",
+    "--card": "rgba(255,255,255,.90)",
+    "--text": "#1b4332",
+    "--text-secondary": "#40916c",
+    "--primary": "#52b788",
+    "--primary-hover": "#40916c",
+    "--success": "#2d6a4f",
+    "--success-hover": "#1b4332",
+    "--warning": "#95d5b2",
+    "--warning-hover": "#74c69d",
+    "--body-gradient":
+        "linear-gradient(#d8f3dc,#f4fff7)",
+"--edit": "#40916c",
+"--edit-hover": "#2d6a4f",
+"--delete": "#d62828",
+"--delete-hover": "#b71c1c",
+"--completed-card": "rgba(220,235,223,.95)"
+},
+coffee: {
+    "--bg": "#2b1d16",
+    "--bg-secondary": "#4e342e",
+    "--card": "rgba(78,52,46,.85)",
+    "--text": "#f5ebe0",
+    "--text-secondary": "#d5bdaf",
+    "--primary": "#a98467",
+    "--primary-hover": "#8c6d54",
+    "--success": "#7f5539",
+    "--success-hover": "#5e412f",
+    "--warning": "#ddb892",
+    "--warning-hover": "#c79a72",
+    "--body-gradient":
+        "radial-gradient(circle at top left,#6f4e37,#2b1d16 50%)",
+"--edit": "#90caf9",
+"--edit-hover": "#64b5f6",
+"--delete": "#e57373",
+"--delete-hover": "#ef5350",
+"--completed-card": "rgba(55,35,30,.92)"
+},
+sakura: {
+    "--bg": "#fff0f6",
+    "--bg-secondary": "#ffd6e7",
+    "--card": "rgba(255,255,255,.92)",
+    "--text": "#742f57",
+    "--text-secondary": "#b56576",
+    "--primary": "#ff70a6",
+    "--primary-hover": "#ff4d8d",
+    "--success": "#ff85a1",
+    "--success-hover": "#ff5c8a",
+    "--warning": "#ffc8dd",
+    "--warning-hover": "#ffafcc",
+    "--body-gradient":
+        "linear-gradient(#fff0f6,#ffd6e7)",
+    "--edit": "#ff70a6",
+    "--edit-hover": "#ff4d8d",
+    "--delete": "#c9184a",
+    "--delete-hover": "#a4133c",
+"--completed-card": "rgba(255,225,235,.96)"
+},
+rosegold: {
+    "--bg": "#fff1f2",
+    "--bg-secondary": "#ffe4e6",
+    "--card": "rgba(255,255,255,.92)",
+    "--text": "#6b2737",
+    "--text-secondary": "#9d4e61",
+    "--primary": "#d17b88",
+    "--primary-hover": "#bb6372",
+    "--success": "#c06c84",
+    "--success-hover": "#a65470",
+    "--warning": "#f4a261",
+    "--warning-hover": "#e76f51",
+    "--body-gradient":
+        "linear-gradient(#fff1f2,#ffe4e6)",
+"--edit": "#b56576",
+"--edit-hover": "#9d4e61",
+"--delete": "#c9184a",
+"--delete-hover": "#a4133c",
+"--completed-card": "rgba(245,225,230,.96)"
+},
+    terminal: {
+        "--bg": "#001100",
+        "--bg-secondary": "#002200",
+        "--card": "rgba(0,34,0,.85)",
+        "--text": "#00ff66",
+        "--text-secondary": "#66ff99",
+        "--primary": "#00ff66",
+        "--primary-hover": "#00cc52",
+        "--success": "#00ff99",
+        "--success-hover": "#00cc77",
+        "--warning": "#99ff00",
+        "--warning-hover": "#77cc00",
+        "--body-gradient":
+            "linear-gradient(#001100,#000000)",
+"--edit": "#00ffff",
+"--edit-hover": "#00cccc",
+"--delete": "#ff4444",
+"--delete-hover": "#cc2222",
+"--completed-card": "rgba(0,18,0,.95)"
+    },
+};
+
+function applyTheme(themeName) {
+    const theme = themes[themeName] || themes.default;
+
+    Object.entries(theme).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(key, value);
+    });
+
+    localStorage.setItem(THEME_KEY, themeName);
+}
+
+function loadTheme() {
+    const saved =
+        localStorage.getItem(THEME_KEY) || "default";
+
+    applyTheme(saved);
+
+    const selector =
+        document.getElementById("themeSelector");
+
+    if (selector) {
+        selector.value = saved;
+    }
+}
 
 let tasks = loadTasks();
 let currentView = "standard";
@@ -434,7 +645,9 @@ function renderStandardView() {
                 );
 
             div.className =
-                "habit";
+    currentView === "compact"
+        ? "habit compact-habit"
+        : "habit";
 
             if (
                 doneToday
@@ -449,58 +662,103 @@ if (currentView === "compact") {
     div.innerHTML = `
         <h3>${habit.name}</h3>
 
-<button class="complete-btn">
-                ${
-                    doneToday
-                        ? "Completed Today"
-                        : "Mark Complete"
-                }
-        </button>
-    `;
+<button class="complete-btn" >
+    <img
+        src="icons/${
+            doneToday
+                ? "circle-check.svg"
+                : "circle.svg"
+        }"
+        alt="${
+            doneToday
+                ? "Completed"
+                : "Incomplete"
+        }"
+        class="icon"
+    />
+</button>
+`;
+
+
 
 } else {
 
     div.innerHTML = `
         <h3>${habit.name}</h3>
 
-        <div class="info">
-            🏆 Tier ${habit.tier}
-        </div>
+<div class="info">
+    <img src="icons/sparkles.svg" class="icon" alt=""> Tier ${habit.tier}
+</div>
 
-        <div class="info">
-            ⏰ ${habit.scheduled}
-        </div>
+<div class="info">
+    <img src="icons/clock.svg" class="icon" alt="">
+    ${habit.scheduled}
+</div>
 
-        <div class="info">
-            ${
-                streak > 0
-                    ? `🔥 ${streak} day streak`
-                    : `💤 No active streak`
-            }
-        </div>
+<div class="info">
+    <img 
+src="icons/${
+streak > 0
+? "flame.svg"
+: "snowflake.svg"}" class="icon" alt="">
+    ${
+        streak > 0
+            ? `${streak} day streak`
+            : `No active streak`
+    }
+</div>
 
-        <div class="info">
-            ✅ ${habit.completions.length} completions
-        </div>
 
-        <div class="habit-buttons">
+
+
+
+
+
+
+
+<div class="info">
+    <img src="icons/list-todo.svg" class="icon" alt="">
+    ${habit.completions.length} completions
+</div>
+
+
 
 <button
     class="complete-btn">
-                ${
-                    doneToday
-                        ? "Completed Today"
-                        : "Mark Complete"
-                }
+    <img
+        src="icons/${
+            doneToday
+                ? "circle-check.svg"
+                : "circle.svg"
+        }"
+        alt="${
+            doneToday
+                ? "Completed"
+                : "Incomplete"
+        }"
+        class="icon"
+    />
             </button>
 
-            <button class="edit-btn">
-                Edit
-            </button>
+<button
+    class="edit-btn"
+    title="Edit Habit">
+    <img
+        src="icons/pencil.svg"
+        alt="Edit"
+        class="icon"
+    >
+</button>
 
-            <button class="delete-btn">
-                Delete
-            </button>
+<button
+    class="delete-btn"
+    title="Delete Habit">
+    <img
+        src="icons/trash.svg"
+        alt="Delete"
+        class="icon"
+    >
+</button>
 
         </div>
     `;
@@ -641,19 +899,27 @@ function renderTinderView() {
         <h2>${habit.name}</h2>
 
         <div class="info">
-            🏆 Tier ${habit.tier}
+<img src="icons/sparkles.svg" class="icon" alt=""> Tier ${habit.tier}
         </div>
 
         <div class="info">
-            ⏰ ${habit.scheduled}
+    <img src="icons/clock.svg" class="icon" alt="">
+    ${habit.scheduled}
         </div>
 
         <div class="info">
-            ${
-                streak > 0
-                    ? `🔥 ${streak} day streak`
-                    : `🎯 Start a new streak`
-            }
+
+   <img 
+src="icons/${
+streak > 0
+? "flame.svg"
+: "snowflake.svg"}" class="icon" alt="">
+    ${
+        streak > 0
+            ? `${streak} day streak`
+            : `No active streak`
+    }
+
         </div>
 
         <div class="tinder-buttons">
@@ -837,6 +1103,14 @@ document
             renderHabits();
         }
     );
+document
+    .getElementById("themeSelector")
+    ?.addEventListener("change", e => {
+        applyTheme(e.target.value);
+    });
+
+loadTheme();
+
 
 document
     .getElementById(
