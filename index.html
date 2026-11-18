@@ -2,15 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Habit Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<header class="app-header">
+    <button
+        id="addHabitMenuBtn"
+        class="header-icon-btn add-habit-menu-btn"
+        title="Add Habit"
+        aria-label="Open Add Habit menu">
+        <img src="icons/plus.svg" alt="" class="icon">
+    </button>
 
     <h1>Habit Tracker</h1>
 
-    <div class="toolbar">
+    <button
+        id="settingsBtn"
+        class="header-icon-btn settings-btn"
+        title="Settings"
+        aria-label="Open settings">
+        <img src="icons/settings.svg" alt="" class="icon">
+    </button>
+</header>
+<dialog id="addHabitDialog" class="settings-dialog">
+    <div class="settings-content">
+        <div class="settings-header">
+            <h2>Add Habit</h2>
+
+            <button
+                id="closeAddHabitBtn"
+                class="settings-close-btn"
+                aria-label="Close menu">
+                &times;
+            </button>
+        </div>
+
+        <input
+            id="habitName"
+            placeholder="Habit Name">
+
+        <input
+            id="habitTier"
+            type="number"
+            min="1"
+            placeholder="Tier">
+
+        <input
+            id="habitTime"
+            type="time">
+
+        <button id="addBtn">
+            Add Habit
+        </button>
+    </div>
+</dialog>
+
+<dialog id="settingsDialog" class="settings-dialog">
+    <div class="settings-content">
+        <div class="settings-header">
+            <h2>Settings</h2>
+
+            <button
+                id="closeSettingsBtn"
+                class="settings-close-btn"
+                aria-label="Close settings">
+                &times;
+            </button>
+        </div>
+
         <button id="exportBtn">Export JSON</button>
 
         <label class="import-button">
@@ -25,30 +86,35 @@
             Reset All Completions
         </button>
 
-<select id="themeSelector">
-    <option value="default">Forest</option>
-    <option value="ocean">Ocean</option>
-    <option value="sunset">Sunset</option>
-    <option value="lavender">Lavender</option>
-    <option value="terminal">Terminal</option>
-<option value="matcha">Matcha</option>
-<option value="rosegold">Rose Gold</option>
-<option value="coffee">Coffee</option>
-<option value="sakura">Sakura</option>
-</select>
+        <div class="settings-theme">
+            <label for="themeSelector">Theme</label>
+
+            <select id="themeSelector">
+                <option value="default">Forest</option>
+                <option value="ocean">Ocean</option>
+                <option value="sunset">Sunset</option>
+                <option value="lavender">Lavender</option>
+                <option value="terminal">Terminal</option>
+                <option value="matcha">Matcha</option>
+                <option value="rosegold">Rose Gold</option>
+                <option value="coffee">Coffee</option>
+                <option value="sakura">Sakura</option>
+            </select>
+        </div>
     </div>
+</dialog>
 
 <div class="view-toggle">
     <button id="standardViewBtn">
-        Standard View
+        Standard
     </button>
 
     <button id="compactViewBtn">
-        Compact View
+        Compact
     </button>
 
     <button id="tinderViewBtn">
-        Focus Mode
+        Focus
     </button>
 </div>
 
@@ -94,27 +160,6 @@
 </div>
 
 
-    <div class="card">
-        <h2>Add Habit</h2>
-
-        <input
-            id="habitName"
-            placeholder="Habit Name">
-
-        <input
-            id="habitTier"
-            type="number"
-            min="1"
-            placeholder="Tier">
-
-        <input
-            id="habitTime"
-            type="time">
-
-        <button id="addBtn">
-            Add Habit
-        </button>
-    </div>
 
     <div id="habitList"></div>
 
