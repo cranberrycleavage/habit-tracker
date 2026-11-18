@@ -724,21 +724,45 @@ if (currentView === "compact") {
     div.innerHTML = `
         <h3>${habit.name}</h3>
 
-<button class="complete-btn" >
-    <img
-        src="icons/${
-            doneToday
-                ? "circle-check.svg"
-                : "circle.svg"
-        }"
-        alt="${
-            doneToday
-                ? "Completed"
-                : "Incomplete"
-        }"
-        class="icon"
-    />
-</button>
+<div class="habit-buttons">
+
+    <button class="complete-btn">
+        <img
+            src="icons/${
+                doneToday
+                    ? "circle-check.svg"
+                    : "circle.svg"
+            }"
+            alt="${
+                doneToday
+                    ? "Completed"
+                    : "Incomplete"
+            }"
+            class="icon"
+        />
+    </button>
+
+    <button
+        class="edit-btn"
+        title="Edit Habit">
+        <img
+            src="icons/pencil.svg"
+            alt="Edit"
+            class="icon"
+        >
+    </button>
+
+    <button
+        class="delete-btn"
+        title="Delete Habit">
+        <img
+            src="icons/trash.svg"
+            alt="Delete"
+            class="icon"
+        >
+    </button>
+
+</div>
 `;
 
 
@@ -747,40 +771,34 @@ if (currentView === "compact") {
 
     div.innerHTML = `
         <h3>${habit.name}</h3>
+<div class="habit-details">
 
-<div class="info">
-    <img src="icons/sparkles.svg" class="icon" alt=""> Tier ${habit.tier}
-</div>
+    <div class="info">
+        <img src="icons/sparkles.svg" class="icon" alt="">
+        Tier ${habit.tier}
+    </div>
 
-<div class="info">
-    <img src="icons/clock.svg" class="icon" alt="">
-    ${habit.scheduled}
-</div>
+    <div class="info">
+        <img src="icons/${
+            streak > 0 ? "flame.svg" : "snowflake.svg"
+        }" class="icon" alt="">
+        ${
+            streak > 0
+                ? `${streak} day streak`
+                : `No active streak`
+        }
+    </div>
 
-<div class="info">
-    <img 
-src="icons/${
-streak > 0
-? "flame.svg"
-: "snowflake.svg"}" class="icon" alt="">
-    ${
-        streak > 0
-            ? `${streak} day streak`
-            : `No active streak`
-    }
-</div>
+    <div class="info">
+        <img src="icons/clock.svg" class="icon" alt="">
+        ${habit.scheduled}
+    </div>
 
+    <div class="info">
+        <img src="icons/list-todo.svg" class="icon" alt="">
+        ${habit.completions.length} completions
+    </div>
 
-
-
-
-
-
-
-
-<div class="info">
-    <img src="icons/list-todo.svg" class="icon" alt="">
-    ${habit.completions.length} completions
 </div>
 
 
@@ -982,6 +1000,12 @@ streak > 0
             : `No active streak`
     }
 
+
+    <div class="info">
+        <img src="icons/list-todo.svg" class="icon" alt="">
+        ${habit.completions.length} completions
+    </div>
+
         </div>
 
         <div class="tinder-buttons">
@@ -989,14 +1013,23 @@ streak > 0
             <button
                 id="skipHabitBtn"
                 class="skip-btn">
-                Skip
+                 <img
+            src="icons/skip.svg"
+            alt="Skip"
+            class="icon"
+        >
             </button>
 
             <button
                 id="completeHabitBtn"
                 class="complete-btn">
-                Complete
+                        <img
+            src="icons/check.svg"
+            alt="Complete"
+            class="icon"
+        >
             </button>
+
 
         </div>
     `;
@@ -1094,6 +1127,7 @@ document
                     "habitTime"
                 )
                 .value = "";
+addHabitDialog.close();
         }
     );
 
@@ -1190,3 +1224,51 @@ document
             renderHabits();
         }
     );
+
+// SETTINGS MENU
+
+const settingsDialog =
+    document.getElementById("settingsDialog");
+
+document
+    .getElementById("settingsBtn")
+    ?.addEventListener("click", () => {
+        settingsDialog.showModal();
+    });
+
+document
+    .getElementById("closeSettingsBtn")
+    ?.addEventListener("click", () => {
+        settingsDialog.close();
+    });
+
+// Close when clicking outside the menu
+settingsDialog?.addEventListener("click", event => {
+    if (event.target === settingsDialog) {
+        settingsDialog.close();
+    }
+});
+
+// ADD HABIT MENU
+
+const addHabitDialog =
+    document.getElementById("addHabitDialog");
+
+document
+    .getElementById("addHabitMenuBtn")
+    ?.addEventListener("click", () => {
+        addHabitDialog.showModal();
+    });
+
+document
+    .getElementById("closeAddHabitBtn")
+    ?.addEventListener("click", () => {
+        addHabitDialog.close();
+    });
+
+// Close when clicking outside the menu
+addHabitDialog?.addEventListener("click", event => {
+    if (event.target === addHabitDialog) {
+        addHabitDialog.close();
+    }
+});
