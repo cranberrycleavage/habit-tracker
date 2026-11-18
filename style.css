@@ -237,14 +237,24 @@ background-color: var(--completed-card);
 
 .habit-buttons {
     margin-top: 12px;
-
-    display: grid;
-    grid-template-columns: 1fr 48px 48px;
+    display: flex;
+    align-items: center;
     gap: 8px;
+}
+
+.habit-buttons .complete-btn {
+    margin-right: auto;
 }
 
 .complete-btn {
     background: var(--success);
+Min-height: 96px;
+min-width: 96px;
+Border-radius: 32px;
+}
+
+.skip-btn {
+Border-radius: 32px;
 }
 
 .complete-btn:hover {
@@ -259,36 +269,54 @@ background-color: var(--completed-card);
     background: var(--warning-hover);
 }
 
+/* ---------- EDIT / DELETE ICON BUTTONS ---------- */
+
 .edit-btn,
-button.edit {
-    background: var(--edit);
+button.edit,
+.delete-btn,
+button.delete {
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
+
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 8px;
 }
 
 .edit-btn:hover,
-button.edit:hover {
-    background: var(--edit-hover);
-}
-
-.delete-btn,
-button.delete {
-    background: var(--delete);
-}
-
+button.edit:hover,
 .delete-btn:hover,
 button.delete:hover {
-    background: var(--delete-hover);
+    background: transparent;
+    transform: scale(1.08);
 }
 
-.edit-btn,
-.delete-btn {
-    min-width: 48px;
-    min-height: 48px;
+/* Make the icons larger */
+.edit-btn .icon,
+button.edit .icon,
+.delete-btn .icon,
+button.delete .icon,
+.complete-btn .icon,
+button.complete .icon {
+    width: 24px;
+    height: 24px;
 }
 
 .icon {
     width: 18px;
     height: 18px;
-    display: block;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+
+    background: transparent;
+    mask: none;
+    -webkit-mask: none;
 }
 
 /* ---------- FOCUS MODE ---------- */
@@ -322,10 +350,6 @@ button.delete:hover {
 
 @media (min-width: 1024px) {
 
-    .habit-buttons {
-        grid-template-columns: auto auto auto;
-    }
-
     .complete-btn {
         min-width: 160px;
     }
@@ -356,6 +380,7 @@ button.delete:hover {
 .tier-row > div:first-child {
     font-weight: 600;
     margin-bottom: 6px;
+
 }
 
 
@@ -388,3 +413,103 @@ button.delete:hover {
 #tier3Bar { background: #a855f7; }
 #tier4Bar { background: #f59e0b; }
 #tier5Bar { background: #ef4444; }
+
+/* ---------- HABIT CARD DETAILS ---------- */
+
+.habit-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 12px;
+    row-gap: 6px;
+    margin-bottom: 12px;
+}
+
+.habit-details .info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 0;
+    min-width: 0;
+}
+
+/* Make the Complete button icon larger */
+.complete-btn .icon {
+    width: 60px;
+    height: 60px;
+}
+
+.skip-btn .icon {
+    width: 60px;
+    height: 60px;
+}
+
+/* ---------- APP HEADER ---------- */
+
+.app-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.app-header h1 {
+    margin-bottom: 0;
+}
+
+.settings-btn {
+    position: absolute;
+    right: 0;
+
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+
+    padding: 0;
+    background: transparent;
+    border-radius: 12px;
+}
+
+.settings-btn:hover {
+    background: transparent;
+    transform: scale(1.12);
+}
+
+.settings-btn .icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* ---------- HEADER ICON BUTTONS ---------- */
+
+.header-icon-btn {
+    position: absolute;
+
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+
+    padding: 0;
+    background: transparent;
+    border-radius: 12px;
+}
+
+.header-icon-btn:hover {
+    background: transparent;
+    transform: scale(1.12);
+}
+
+.header-icon-btn .icon {
+    width: 24px;
+    height: 24px;
+}
+
+.add-habit-menu-btn {
+    left: 0;
+}
+
+.settings-btn {
+    right: 0;
+}
