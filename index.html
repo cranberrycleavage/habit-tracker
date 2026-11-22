@@ -2,168 +2,202 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Habit Tracker</title>
+
+    <meta name="theme-color" content="#102a13">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Habits">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="app-header">
-    <button
-        id="addHabitMenuBtn"
-        class="header-icon-btn add-habit-menu-btn"
-        title="Add Habit"
-        aria-label="Open Add Habit menu">
-        <img src="icons/plus.svg" alt="" class="icon">
-    </button>
-
-    <h1>Habit Tracker</h1>
-
-    <button
-        id="settingsBtn"
-        class="header-icon-btn settings-btn"
-        title="Settings"
-        aria-label="Open settings">
-        <img src="icons/settings.svg" alt="" class="icon">
-    </button>
-</header>
-<dialog id="addHabitDialog" class="settings-dialog">
-    <div class="settings-content">
-        <div class="settings-header">
-            <h2>Add Habit</h2>
-
-            <button
-                id="closeAddHabitBtn"
-                class="settings-close-btn"
-                aria-label="Close menu">
-                &times;
-            </button>
+    <header class="app-header">
+        <div class="header-side">
+            <button id="addHabitMenuBtn" class="header-icon-btn" data-icon="plus"
+                title="Add habit" aria-label="Add habit"></button>
         </div>
 
-        <input
-            id="habitName"
-            placeholder="Habit Name">
+        <h1>Habit Tracker</h1>
 
-        <input
-            id="habitTier"
-            type="number"
-            min="1"
-            placeholder="Tier">
+        <div class="header-side end">
+            <button id="statsBtn" class="header-icon-btn" data-icon="chart-column"
+                title="Stats" aria-label="Open stats"></button>
+            <button id="settingsBtn" class="header-icon-btn" data-icon="settings"
+                title="Settings" aria-label="Open settings"></button>
+        </div>
+    </header>
 
-        <input
-            id="habitTime"
-            type="time">
+    <dialog id="habitDialog" class="dialog" aria-labelledby="habitDialogTitle">
+        <form id="habitForm" method="dialog" class="dialog-content">
+            <div class="dialog-header">
+                <h2 id="habitDialogTitle">Add Habit</h2>
+                <button type="button" class="dialog-close" data-close aria-label="Close">&times;</button>
+            </div>
 
-        <button id="addBtn">
-            Add Habit
-        </button>
+            <label for="habitName">Name</label>
+            <input id="habitName" required maxlength="80" autocomplete="off">
+
+            <label for="habitTier">Tier</label>
+            <select id="habitTier" required></select>
+
+            <label for="habitTime">Scheduled time</label>
+            <input id="habitTime" type="time" required>
+
+            <button type="submit" id="habitSubmitBtn">Add habit</button>
+        </form>
+    </dialog>
+
+    <dialog id="settingsDialog" class="dialog" aria-labelledby="settingsTitle">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 id="settingsTitle">Settings</h2>
+                <button type="button" class="dialog-close" data-close aria-label="Close settings">&times;</button>
+            </div>
+
+            <button type="button" id="exportBtn">Export JSON</button>
+            <p id="lastExportText" class="hint"></p>
+
+            <label class="import-button">
+                Import JSON
+                <input type="file" id="importFile" accept=".json" class="sr-only">
+            </label>
+
+            <button type="button" id="archiveBtn">Archived habits</button>
+            <button type="button" id="resetBtn">Reset all completions</button>
+
+            <div class="settings-field">
+                <label for="sortSelect">Sort habits by</label>
+                <select id="sortSelect">
+                    <option value="time">Scheduled time</option>
+                    <option value="tier">Tier</option>
+                    <option value="streak">Longest streak</option>
+                    <option value="name">Name</option>
+                </select>
+            </div>
+
+            <div class="settings-field">
+                <label for="weekStartSelect">Week starts on</label>
+                <select id="weekStartSelect">
+                    <option value="mon">Monday</option>
+                    <option value="sun">Sunday</option>
+                </select>
+            </div>
+
+            <div class="settings-field">
+                <label for="themeSelector">Theme</label>
+                <select id="themeSelector">
+                    <option value="default">Forest</option>
+                    <option value="ocean">Ocean</option>
+                    <option value="sunset">Sunset</option>
+                    <option value="lavender">Lavender</option>
+                    <option value="terminal">Terminal</option>
+                    <option value="matcha">Matcha</option>
+                    <option value="rosegold">Rose Gold</option>
+                    <option value="coffee">Coffee</option>
+                    <option value="sakura">Sakura</option>
+                </select>
+            </div>
+
+            <button type="button" id="installBtn">Install app</button>
+        </div>
+    </dialog>
+
+    <dialog id="importDialog" class="dialog" aria-labelledby="importTitle">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 id="importTitle">Import habits</h2>
+                <button type="button" class="dialog-close" data-close aria-label="Close">&times;</button>
+            </div>
+
+            <p id="importSummary" class="hint"></p>
+            <p class="hint">
+                Merge keeps your current habits, adds new ones from the file, and combines
+                completion history. Replace swaps everything for the file's contents.
+            </p>
+
+            <button type="button" id="importMergeBtn">Merge with current habits</button>
+            <button type="button" id="importReplaceBtn" class="secondary">Replace everything</button>
+        </div>
+    </dialog>
+
+    <dialog id="archiveDialog" class="dialog" aria-labelledby="archiveTitle">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 id="archiveTitle">Archived habits</h2>
+                <button type="button" class="dialog-close" data-close aria-label="Close">&times;</button>
+            </div>
+
+            <div id="archiveList"></div>
+        </div>
+    </dialog>
+
+    <dialog id="statsDialog" class="dialog wide" aria-labelledby="statsTitle">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 id="statsTitle">Stats</h2>
+                <button type="button" class="dialog-close" data-close aria-label="Close stats">&times;</button>
+            </div>
+
+            <div class="view-toggle" role="group" aria-label="Date range for completion rates">
+                <button type="button" data-range="7" aria-pressed="false">7 days</button>
+                <button type="button" data-range="30" aria-pressed="true">30 days</button>
+                <button type="button" data-range="90" aria-pressed="false">90 days</button>
+            </div>
+
+            <div id="statsBody"></div>
+        </div>
+    </dialog>
+
+    <dialog id="detailDialog" class="dialog sheet" aria-labelledby="detailTitle">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 id="detailTitle"></h2>
+                <button type="button" class="dialog-close" data-close aria-label="Close">&times;</button>
+            </div>
+
+            <p id="detailMeta" class="hint"></p>
+            <div id="detailBody"></div>
+        </div>
+    </dialog>
+
+    <main>
+        <section class="card nudge" id="backupNudge" hidden>
+            <p id="nudgeText"></p>
+            <div class="nudge-actions">
+                <button type="button" id="nudgeExportBtn">Export now</button>
+                <button type="button" id="nudgeLaterBtn" class="secondary">Later</button>
+            </div>
+        </section>
+
+        <div class="view-toggle">
+            <button type="button" data-view="standard" aria-pressed="true">Standard</button>
+            <button type="button" data-view="compact" aria-pressed="false">Compact</button>
+            <button type="button" data-view="focus" aria-pressed="false">Focus</button>
+        </div>
+
+        <div class="toolbar">
+            <button type="button" id="hideCompletedBtn" class="pill" aria-pressed="false">Hide done</button>
+            <button type="button" id="badDayBtn" class="pill" aria-pressed="false">Bad day: Tier 1 only</button>
+        </div>
+
+        <section class="card" id="tierSummary">
+            <h2>Tier Progress</h2>
+            <div id="tierRows"></div>
+        </section>
+
+        <div id="habitList"></div>
+    </main>
+
+    <div id="toast" class="toast" popover="manual" role="status" aria-live="polite">
+        <span id="toastMsg"></span>
+        <button type="button" id="toastAction" hidden></button>
     </div>
-</dialog>
-
-<dialog id="settingsDialog" class="settings-dialog">
-    <div class="settings-content">
-        <div class="settings-header">
-            <h2>Settings</h2>
-
-            <button
-                id="closeSettingsBtn"
-                class="settings-close-btn"
-                aria-label="Close settings">
-                &times;
-            </button>
-        </div>
-
-        <button id="exportBtn">Export JSON</button>
-
-        <label class="import-button">
-            Import JSON
-            <input
-                type="file"
-                id="importFile"
-                accept=".json">
-        </label>
-
-        <button id="resetBtn">
-            Reset All Completions
-        </button>
-
-        <div class="settings-theme">
-            <label for="themeSelector">Theme</label>
-
-            <select id="themeSelector">
-                <option value="default">Forest</option>
-                <option value="ocean">Ocean</option>
-                <option value="sunset">Sunset</option>
-                <option value="lavender">Lavender</option>
-                <option value="terminal">Terminal</option>
-                <option value="matcha">Matcha</option>
-                <option value="rosegold">Rose Gold</option>
-                <option value="coffee">Coffee</option>
-                <option value="sakura">Sakura</option>
-            </select>
-        </div>
-    </div>
-</dialog>
-
-<div class="view-toggle">
-    <button id="standardViewBtn">
-        Standard
-    </button>
-
-    <button id="compactViewBtn">
-        Compact
-    </button>
-
-    <button id="tinderViewBtn">
-        Focus
-    </button>
-</div>
-
-
-
-<div class="card" id="tierSummary">
-    <h2>Tier Progress</h2>
-
-    <div class="tier-row">
-        <div id="tier1Counter">Tier 1 - 0/0</div>
-        <div class="tier-progress">
-            <div id="tier1Bar" class="tier-fill"></div>
-        </div>
-    </div>
-
-    <div class="tier-row">
-        <div id="tier2Counter">Tier 2 - 0/0</div>
-        <div class="tier-progress">
-            <div id="tier2Bar" class="tier-fill"></div>
-        </div>
-    </div>
-
-    <div class="tier-row">
-        <div id="tier3Counter">Tier 3 - 0/0</div>
-        <div class="tier-progress">
-            <div id="tier3Bar" class="tier-fill"></div>
-        </div>
-    </div>
-
-    <div class="tier-row">
-        <div id="tier4Counter">Tier 4 - 0/0</div>
-        <div class="tier-progress">
-            <div id="tier4Bar" class="tier-fill"></div>
-        </div>
-    </div>
-
-    <div class="tier-row">
-        <div id="tier5Counter">Tier 5 - 0/0</div>
-        <div class="tier-progress">
-            <div id="tier5Bar" class="tier-fill"></div>
-        </div>
-    </div>
-</div>
-
-
-
-    <div id="habitList"></div>
 
     <script src="app.js"></script>
-
 </body>
 </html>
